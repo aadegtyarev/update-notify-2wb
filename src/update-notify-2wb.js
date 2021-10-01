@@ -1,7 +1,7 @@
-/*v. 1.1.0*/
+/*v. 1.1.1*/
 var deviceName = "update-sensor";
 var logControlName = "Log";
-var btnControlName = "Check for updates";
+var btnControlName = "Check for updates"; 
 var updateIsRunning = false;
 
 
@@ -10,10 +10,11 @@ init();
 function checkUpdate() {
   if (!updateIsRunning){
     updateIsRunning = true;
-    writeStatus("Search for updates…");
+    writeStatus("Looking for an update…"); 
     runShellCommand("apt update", {
       captureOutput: true,
       exitCallback: function (exitCode, capturedOutput) {
+        log("{} | {}".format(exitCode, capturedOutput))
         if (exitCode === 0) {
           packagesCount = getPackagesCount(capturedOutput);
           thereAreUpdates = packagesCount !== 0;
@@ -70,7 +71,7 @@ function setButtonDisable(status) {
 }
 
 function writeUpdatePackageList() {
-  writePackagesList("");
+  writePackagesList("I'm getting a list of packages…");
   runShellCommand("apt list --upgradable", {
     captureOutput: true,
     exitCallback: function (exitCode, capturedOutput) {
